@@ -50,42 +50,25 @@ def change_style(filepath, style='IEEE'):
             if string_val not in changed_replaceable_text:
                 changed_replaceable_text.append(string_val)
 
-    # print(" Chnaged Replaceable Text")
+    # print(len(changed_replaceable_text))
     # print(changed_replaceable_text)
-    print(len(changed_replaceable_text))
+    # print(replaceable_text)
 
-    # changed_replaceable_text = list(set(changed_replaceable_text))
-    
-
-    print(changed_replaceable_text)
-    print(replaceable_text)
-
-    count = 1
-    reference_text = []
     for i, ival in enumerate(replaced_text):
         for val in replaceable_text:
             if val in ival:
-                # print('%%'*50)
-                # print('\n')
-                # print(replaced_text[i])
-                # print('\n')
-                # print(val)
                 temp_text = []
                 for i_text, c_text in enumerate(changed_replaceable_text):
                     tt_val = val.replace('et al.', '').replace('e.g., ', '')
-                    # print(c_text, val, tt_val, i)
-                    # print(c_text in tt_val)
                     if c_text in val or c_text in tt_val:
                         temp_text.append(i_text+1)
-                        # print(c_text)
                 replaced_text[i] = replaced_text[i].replace(val, '{}'.format(temp_text))
-                # print('\n')
-                # print(replaced_text[i])
 
     # for i in range(len(replaced_text)):
     #     print(replaced_text[i])
     #     print(full_text[i])
     #     print('\n')
+    # return
 
     reference = []
     reference_start = False
@@ -95,66 +78,15 @@ def change_style(filepath, style='IEEE'):
             reference_start = True
         if reference_start:
             reference.append(val)
-    # print(reference)
-    # print(reference_text)
 
     new_reference = []
-    replace_characters = [')', '(', '.', 'eg',  'et', 'and', 'Pers']
-    for val in reference_text:
-        # val = '(Moore, 1996; Bushong, 2002)'
-        print(val)
-        n_val = val
-        for ch in replace_characters:
-            if ch in n_val:
-                n_val = n_val.replace(ch, '')
-        
-        n_val = n_val.replace(',', ' ').replace(';', ' end_of ').split(' ')
-        t_val = []
-        for temp in n_val:
-            # if len(temp) < 3 or temp.isdigit():
-            if len(temp) < 3 :
-                pass
-            else:
-                t_val.append(temp)
-        print(t_val)
+    for val in changed_replaceable_text:
+        v_split = val.replace('and','').replace(',', '').split()
+        for rf in reference:
+            if v_split[0].lower() in rf.lower() and v_split[1].lower() in rf.lower():
+                new_reference.append(rf)
 
-        
-        # temp_ref = []
-        # for i, ref in enumerate(reference):
-        #     temp_flag = []
-        #     for temp in t_val:
-        #         if temp.lower() in ref.lower() and temp.isdigit() == False: 
-        #             temp_flag.append('is_there')
-        #         elif temp.lower() in ref.lower() and temp.isdigit(): 
-        #             temp_flag.append('is_there')
-        #             if 'not_there' not in temp_flag and len(temp_flag) != 0:
-        #                 print(ref)
-        #         else:
-        #             temp_flag.append('not_there')
-        #     if 'not_there' not in temp_flag and len(temp_flag) != 0:
-        #         print(ref)
-                    
-        temp_ref = []
-        for i, temp in enumerate(t_val):
-            # print(i, temp)
-            for ref in reference:
-                if  temp =='end_of':
-                    temp_ref = list(set(temp_ref))
-                    # print(temp_ref)
-                if temp.lower() in ref.lower() and temp.isdigit() == False : 
-                    temp_ref.append(ref)
-                    # print(temp_ref)
-                    break
-                elif temp.lower() in ref.lower() and temp.isdigit() : 
-                    # print(i)
-                    if t_val[i-1].lower() in ref.lower():
-                        temp_ref = list(set(temp_ref))
-                        # print(temp_ref)
-                    # else:
-                    #     temp_ref.remove(temp_ref[-1])
-                        # print("****:::"*10, ref)
-        print(temp_ref)
-        # break
+
 
 
 
