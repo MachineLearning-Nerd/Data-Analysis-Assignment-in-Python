@@ -10,7 +10,6 @@ def random_converter(x):
     val = random.randint(0,4)
     ctype = converter_types[val]
     print(" x = {}, type(x)= {}, convert_type = {} ".format(x, type(x), ctype), end="")
-    ctype = 'complex'
     if ctype == 'int':
         # string
         if input_type == type('1'):
